@@ -9,7 +9,7 @@ import primitives.Vector;
  */
 public class Sphere extends RadialGeometry {
 
-    final Point center;
+    private final Point center;
 
     /**
      * Constructor That initializes the sphere

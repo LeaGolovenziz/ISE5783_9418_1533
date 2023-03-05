@@ -10,7 +10,7 @@ import primitives.Vector;
  */
 public class Cylinder extends Tube {
 
-    final double height;
+    private final double height;
 
     /**
      * Constructor that initializes the radius and the height
@@ -33,10 +33,8 @@ public class Cylinder extends Tube {
         return height;
     }
 
-    /**
-     @Override
-    public Vector GetNormal(Point point) {
+    @Override
+    public Vector getNormal(Point point) {
         return null;
     }
-    */
 }

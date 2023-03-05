@@ -7,7 +7,7 @@ import primitives.Vector;
  */
 public abstract class RadialGeometry implements Geometry {
 
-    final protected double radius;
+    protected final double radius;
 
     /**
      * Construct that initializes the radius

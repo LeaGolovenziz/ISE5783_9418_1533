@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Naomi Reitzer and Leah Golovenziz
  */
 public class Point {
-    final Double3 xyz;
+    protected final Double3 xyz;
 
     /**
      * Constructor that initializes the xyz
@@ -16,7 +16,7 @@ public class Point {
      * @param xyz point xyz
      */
     Point(Double3 xyz) {
-        this.xyz = xyz;
+        this(xyz.d1, xyz.d2, xyz.d3);
     }
 
     /**

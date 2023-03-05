@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Naomi Reitzer and Leah Golovenziz
  */
 public class Ray {
-    final Point p0;
+    private final Point p0;
     final Vector dir;
 
     /**

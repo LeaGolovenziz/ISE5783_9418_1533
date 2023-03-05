@@ -15,10 +15,7 @@ public class Vector extends Point {
      * @param xyz double3 xyz
      */
     Vector(Double3 xyz) {
-        super(xyz);
-        if (this.xyz.equals(Double3.ZERO)) {
-            throw new IllegalArgumentException("Cannot create zero vector");
-        }
+        this(xyz.d1, xyz.d2, xyz.d3);
     }
 
     /**
@@ -29,7 +26,10 @@ public class Vector extends Point {
      * @param z value for z axis
      */
     public Vector(double x, double y, double z) {
-        this(new Double3(x, y, z));
+        super(x, y, z);
+        if (this.xyz.equals(Double3.ZERO)) {
+            throw new IllegalArgumentException("Cannot create zero vector");
+        }
     }
 
     @Override
@@ -90,9 +90,9 @@ public class Vector extends Point {
      */
     public Vector crossProduct(Vector other) {
         return new Vector(new Double3(
-                xyz.d2 * other.xyz.d3 - xyz.d3 * other.xyz.d2,
-                xyz.d3 * other.xyz.d1 - xyz.d1 * other.xyz.d3,
-                xyz.d1 * other.xyz.d2 - xyz.d2 * other.xyz.d1
+                this.xyz.d2 * other.xyz.d3 - this.xyz.d3 * other.xyz.d2,
+                this.xyz.d3 * other.xyz.d1 - this.xyz.d1 * other.xyz.d3,
+                this.xyz.d1 * other.xyz.d2 - this.xyz.d2 * other.xyz.d1
         ));
     }
 

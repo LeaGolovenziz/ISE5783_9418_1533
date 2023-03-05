@@ -15,8 +15,8 @@ import static primitives.Util.isZero;
  * @author Naomi Reitzer and Leah Golovenziz
  */
 public class Plane implements Geometry {
-    final Point q0;
-    final Vector normal;
+    private final Point q0;
+    private final Vector normal;
 
     /**
      * Construct a Plane out of 3 points
@@ -26,14 +26,13 @@ public class Plane implements Geometry {
      * @param p3 point p3
      */
     public Plane(Point p1, Point p2, Point p3) {
-        normal = null;
-        q0 = p1;
+        this(p1,null);
     }
 
     /**
      * Construct a plane by a point and normal
      *
-     * @param p0 point op0 the middle of the camera
+     * @param q0 point op0 the middle of the camera
      * @param normal vector for the normal (will bwe normalized automatically)
      */
     public Plane(Point q0, Vector normal) {
