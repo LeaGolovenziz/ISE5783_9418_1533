@@ -1,3 +1,8 @@
+/**
+ * Naomi Reitzer 214259418 naomi.reitzer@gmail.com
+ * Leah Golovenziz 325311355 gololea3015@gmail.com
+ */
+
 import static java.lang.System.out;
 import static primitives.Util.isZero;
 
