@@ -16,7 +16,7 @@ class CylinderTests {
      */
     @Test
     void testGetHeight() {
-        fail("Not yet implemented");
+        fail("Not");
     }
 
     /**
