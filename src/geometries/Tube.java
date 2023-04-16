@@ -59,14 +59,10 @@ public class Tube extends RadialGeometry {
 
         Point o = P0.add(v.scale(t));
 
-       /*
         if (point.equals(o)) {
             throw new IllegalArgumentException("point cannot be on the tube axis");
         }
-        */
 
-        Vector n = point.subtract(o).normalize();
-
-        return n;
+        return point.subtract(o).normalize();
     }
 }
