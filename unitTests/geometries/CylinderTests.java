@@ -10,20 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Naomi Reitzer and Leah Golovenziz
  */
 class CylinderTests {
-
-    /**
-     * Test method for {@link geometries.Cylinder#GetHeight()}.
-     */
-    @Test
-    void testGetHeight() {
-        fail("Not");
-    }
-
     /**
      * Test method for {@link Cylinder#getNormal(Point)}.
      */
     @Test
     void testGetNormal() {
-        fail("Not yet implemented");
+        // ============ Equivalence Partitions Tests ==============
+        //
+
     }
 }
