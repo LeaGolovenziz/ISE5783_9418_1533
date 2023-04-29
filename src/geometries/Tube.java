@@ -3,6 +3,9 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
+
 import static primitives.Util.isZero;
 import static primitives.Util.alignZero;
 
@@ -52,17 +55,18 @@ public class Tube extends RadialGeometry {
         // t = the length of p0o
         double t = alignZero(v.dotProduct(P0_P));
 
-        //
+        // if p0p is orthogonal to v p0p is the normal
         if (isZero(t)) {
             return P0_P.normalize();
         }
 
         Point o = P0.add(v.scale(t));
 
-        if (point.equals(o)) {
-            throw new IllegalArgumentException("point cannot be on the tube axis");
-        }
-
         return point.subtract(o).normalize();
+    }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }

@@ -81,5 +81,8 @@ public class Plane implements Geometry {
         return getNormal();
     }
 
-
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
+    }
 }

@@ -3,27 +3,30 @@ package primitives;
 import java.util.Objects;
 
 /**
- * Class Vector is the class representing a vector in Cartesian 3-Dimensional coordinate system.
+ * The Vector class represents a vector in a Cartesian 3-dimensional coordinate system.
+ * It extends the Point class and provides methods for vector addition, scaling, dot product,
+ * cross product, length, normalization, and more.
  *
  * @author Naomi Reitzer and Leah Golovenziz
  */
 public class Vector extends Point {
 
     /**
-     * Construct a vector by a Double3
+     * Constructs a vector by a Double3.
      *
-     * @param xyz double3 xyz
+     * @param xyz the Double3 representing the vector's coordinates.
      */
     Vector(Double3 xyz) {
         this(xyz.d1, xyz.d2, xyz.d3);
     }
 
     /**
-     * Construct a vector by three double coordinates
+     * Constructs a vector by three double coordinates.
      *
-     * @param x value for x axis
-     * @param y value for y axis
-     * @param z value for z axis
+     * @param x the value for the x-axis.
+     * @param y the value for the y-axis.
+     * @param z the value for the z-axis.
+     * @throws IllegalArgumentException if a zero vector is attempted to be created.
      */
     public Vector(double x, double y, double z) {
         super(x, y, z);
@@ -32,6 +35,12 @@ public class Vector extends Point {
         }
     }
 
+    /**
+     * Checks if two Vector objects are equal.
+     *
+     * @param o the object to compare with this vector.
+     * @return true if the two Vector objects are equal, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,31 +48,42 @@ public class Vector extends Point {
         return xyz.equals(vector.xyz);
     }
 
+    /**
+     * Generates a hash code for the Vector object.
+     *
+     * @return a hash code for the Vector object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(xyz);
     }
 
+    /**
+     * Generates a string representation of the Vector object.
+     *
+     * @return a string representation of the Vector object.
+     */
     @Override
     public String toString() {
         return "Vector: " + xyz;
     }
 
     /**
-     * Return the Addition between the received vector and the current one
+     * Returns the vector resulting from the addition of the current vector and a received vector.
      *
-     * @param other Vector
-     * @return new Vector (u+v)
+     * @param other the vector to add to the current vector.
+     * @return the resulting vector.
      */
     public Vector add(Vector other) {
         return new Vector(this.xyz.add(other.xyz));
     }
 
     /**
-     * Returns the current vector scaled by the number received
+     * Returns the vector resulting from scaling the current vector by a scalar factor.
      *
-     * @param scalar scalar factor
-     * @return extended vector
+     * @param scalar the scalar factor to scale the current vector by.
+     * @return the resulting vector.
+     * @throws IllegalArgumentException if a zero vector is attempted to be created.
      */
     public Vector scale(double scalar) {
         if (Util.isZero(scalar)) {
@@ -73,26 +93,26 @@ public class Vector extends Point {
     }
 
     /**
-     * dot product between two vectors (scalar product)
+     * Returns the scalar resulting from the dot product between the current vector and a received vector.
      *
-     * @param other the right vector of U.V
-     * @return scalar value of dot product
+     * @param other the vector to calculate the dot product with.
+     * @return the scalar resulting from the dot product.
      */
     public double dotProduct(Vector other) {
         return this.xyz.d1 * other.xyz.d1 + this.xyz.d2 * other.xyz.d2 + this.xyz.d3 * other.xyz.d3;
     }
 
     /**
-     * Cross product (vectorial product)
+     * Returns the vector resulting from the cross product between the current vector and a received vector.
      *
-     * @param other second vector
-     * @return new Vector resulting from cross product
+     * @param other the vector to calculate the cross product with.
+     * @return the resulting vector.
      */
     public Vector crossProduct(Vector other) {
         return new Vector(new Double3(
-                this.xyz.d2 * other.xyz.d3 - this.xyz.d3 * other.xyz.d2,
-                this.xyz.d3 * other.xyz.d1 - this.xyz.d1 * other.xyz.d3,
-                this.xyz.d1 * other.xyz.d2 - this.xyz.d2 * other.xyz.d1
+                this.xyz.d2 * other.xyz.d3 - this.xyz.d3 * other.xyz.d2, // Calculate x component of resulting vector
+                this.xyz.d3 * other.xyz.d1 - this.xyz.d1 * other.xyz.d3, // Calculate y component of resulting vector
+                this.xyz.d1 * other.xyz.d2 - this.xyz.d2 * other.xyz.d1  // Calculate z component of resulting vector
         ));
     }
 
@@ -122,7 +142,10 @@ public class Vector extends Point {
     public Vector normalize() {
         double length = this.length();
 
-        return new Vector(new Double3(this.xyz.d1 / length, this.xyz.d2 / length, this.xyz.d3 / length));
+        return new Vector(new Double3(
+                this.xyz.d1 / length, // Calculate x component of normalized vector
+                this.xyz.d2 / length, // Calculate y component of normalized vector
+                this.xyz.d3 / length  // Calculate z component of normalized vector
+        ));
     }
-
 }
