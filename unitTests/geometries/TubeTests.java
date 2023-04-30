@@ -13,7 +13,7 @@ import primitives.Ray;
  *
  * @author Naomi Reitzer and Leah Golovenziz
  */
-class TubeTest {
+class TubeTests {
 
     /**
      * Test method for {@link Tube#getNormal(Point)}.
