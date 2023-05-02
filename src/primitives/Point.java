@@ -49,7 +49,7 @@ public class Point {
 
     /**
      *
-     * @return the value of x-axis
+     * @return the value of z-axis
      */
     public double getZ() {
         return xyz.d3;

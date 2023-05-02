@@ -21,42 +21,35 @@ class GeometriesTests {
      */
     @Test
     void testFindIntersections() {
-        Geometries geometries = new Geometries(
-                new Sphere(new Point(0, 0, 2), 0.5),
+        //build a list of geometries
+        Sphere sphere = new Sphere(new Point(1,0,0), 4.0);
+        Triangle triangle = new Triangle(new Point(-1, 0, 0), new Point(1, 0, 0), new Point(0, 1, 0));
+        Plane plane = new Plane(new Point(1, 0, 0), new Vector(0, 0, 1));
+        Geometries geometries1 = new Geometries(sphere, triangle, plane);
 
-                new Polygon(
-                        new Point(1, 0, 0),
-                        new Point(0, 1, 0),
-                        new Point(-1, 0, 0),
-                        new Point(0, -1, 0)
-                ),
-
-                new Triangle(
-                        new Point(1, 0, 0),
-                        new Point(0, 1, 0),
-                        new Point(0, 0, 1)
-                )
-        );
-
-        List<Point> result;
-
-        // =============== Boundary Values Tests ==================
-        //TC01: No geometries intersects
-        assertNull(geometries.findIntersections(new Ray(new Point(1, 1, 1), new Vector(1, 1, 1))),
-                "No geometries intersects");
-        //TC02: Empty list of geometries
-        assertNull(new Geometries().findIntersections(new Ray(new Point(1, 2, 3), new Vector(2, 2, 2))),
-                "Empty list of geometries");
-        //TC03: Only 1 geometry intersect
-        result = geometries.findIntersections(new Ray(new Point(0.2, 0.2, 0.2), new Vector(1, 1, 1)));
-        assertEquals(1, result.size(), "Only 1 geometry intersect");
-        //TC04: All geometries intersects
-        result = geometries.findIntersections(new Ray(new Point(0.2, 0.2, -0.6), new Vector(0, 0, 1)));
-        assertEquals(4, result.size(), "All geometries intersects");
 
         // ============ Equivalence Partitions Tests ==============
-        //TC05: A few geometries intersects
-        result = geometries.findIntersections(new Ray(new Point(-1, -1, -1), new Vector(2, 2, 2)));
-        assertEquals(2, result.size(), "A few geometries intersects");
+        // TC01: Some (but not all) geometries are cut (3 points)
+        List<Point> result1 = geometries1.findIntersections(new Ray(new Point(0, 2, 5), new Vector(0, 0, -1)));
+        assertEquals(3, result1.size(),"Some (but not all) geometries are cut");
+
+
+        // =============== Boundary Values Tests ==================
+        // TC02: Empty list of geometries (0 points)
+        Geometries geometries2 = new Geometries();
+        List<Point> result2 = geometries2.findIntersections(new Ray(new Point(-1, 0, 0), new Vector(3, 1, 2)));
+        assertNull(result2, "Empty list of geometries");
+
+        // TC03: No geometry is cut (0 points)
+        List<Point> result3 = geometries1.findIntersections(new Ray(new Point(-4, 6, 2), new Vector(1, 0, 0)));
+        assertNull(result3, "No geometry is cut");
+
+        // TC04: Only one geometry is cut (2 points)
+        List<Point> result4 = geometries1.findIntersections(new Ray(new Point(-4, 0, 2), new Vector(1, 0, 0)));
+        assertEquals( 2, result4.size(),"Only one geometry is cut");
+
+        // TC05: All geometries are cut (4 points)
+        List<Point> result5 = geometries1.findIntersections(new Ray(new Point(0, 1d/2, 5), new Vector(0, 0, -1)));
+        assertEquals( 4, result5.size(),"All geometries are cut");
     }
 }

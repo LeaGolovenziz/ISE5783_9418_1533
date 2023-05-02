@@ -14,7 +14,7 @@ public class Geometries implements Intersectable {
     /**
      * Default constructor
      */
-    public Geometries(){
+    public Geometries() {
         intersectableList = new LinkedList<>();
     }
 
@@ -34,11 +34,30 @@ public class Geometries implements Intersectable {
      * @param geometries - group of geometries
      */
     public void add(Intersectable... geometries) {
+
         Collections.addAll(intersectableList, geometries);
     }
 
+    /**
+     * Calculates and returns the intersection points between the ray and the geometries
+     *
+     * @param ray
+     * @return list of intersection points
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        List<Point> result = null;
+
+        // For each geometry add its intersections to the list
+        for (var item : intersectableList) {
+            List<Point> itemLst = item.findIntersections(ray);
+            if (itemLst != null) {
+                if (result == null) {
+                    result = new LinkedList<>();
+                }
+                result.addAll(itemLst);
+            }
+        }
+        return result;
     }
 }
