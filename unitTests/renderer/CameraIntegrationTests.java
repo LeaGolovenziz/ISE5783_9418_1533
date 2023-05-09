@@ -10,18 +10,23 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * @author Dan
- */
 
+/**
+ * Integration tests for the Camera class, testing its ability to create rays that intersect with different geometries.
+ * Tests are done on a 3x3 view plane. The expected intersection points are calculated and compared to the expected values.
+ * If the expected amount of intersections does not match the actual amount, the test will fail.
+ *
+ *  @author Naomi Reitzer and Leah Golovenziz
+ */
 class CameraIntegrationTests {
+
     /**
-     * Test helper function to count the intersections and compare with expected value
+     * Calculates the amount of intersections between a given camera and a given geometry, and compares it to the expected amount.
+     * Prints the actual intersection points if any exist.
      *
-     * @param cam      camera for the test
-     * @param geo      3D body to test the integration of the camer with
-     * @param expected amount of intersections
-     * @author Dan Zilberstein
+     * @param cam - the camera being tested
+     * @param geo - the geometry being tested
+     * @param expected - the expected amount of intersections
      */
     private void assertCountIntersections(Camera cam, Intersectable geo, int expected) {
         int count = 0;
@@ -58,7 +63,7 @@ class CameraIntegrationTests {
     }
 
     /**
-     * Integration tests of Camera Ray construction with Ray-Sphere intersections
+     * Integration tests for Camera's ability to construct rays that intersect with a sphere.
      */
     @Test
     public void cameraRaySphereIntegration() {
@@ -80,12 +85,13 @@ class CameraIntegrationTests {
         // TC05: Beyond Sphere 0 points
         assertCountIntersections(cam1, new Sphere(new Point(0, 0, 1), 0.5), 0);
     }
-
     /**
-     * Integration tests of Camera Ray construction with Ray-Plane intersections
+     * This test checks the intersection between camera rays and planes.
+     * It asserts that the expected number of intersection points is returned.
      */
     @Test
     public void cameraRayPlaneIntegration() {
+        // Set up the camera
         Camera cam = new Camera(new Point(0,0,0), new Vector(0, 0, -1), new Vector(0, -1, 0));
 
         // TC01: Plane against camera 9 points
@@ -102,10 +108,12 @@ class CameraIntegrationTests {
     }
 
     /**
-     * Integration tests of Camera Ray construction with Ray-Triangle intersections
+     * This test checks the intersection between camera rays and triangles.
+     * It asserts that the expected number of intersection points is returned.
      */
     @Test
     public void cameraRayTriangleIntegration() {
+        // Set up the camera
         Camera cam = new Camera(new Point(0,0,0), new Vector(0, 0, -1), new Vector(0, -1, 0));
 
         // TC01: Small triangle 1 point
@@ -115,15 +123,24 @@ class CameraIntegrationTests {
         assertCountIntersections(cam, new Triangle(new Point(1, 1, -2), new Point(-1, 1, -2), new Point(0, -20, -2)), 2);
     }
 
+    /**
+     * This test checks the intersection between camera rays and geometries (a collection of shapes).
+     * It asserts that the expected number of intersection points is returned.
+     */
     @Test
     public void cameraRayGeometriesIntegration() {
+        // Set up the camera
         Camera cam = new Camera(new Point(0,0,0), new Vector(0, 0, -1), new Vector(0, -1, 0));
+
+        // Create a collection of geometries to test
         Geometries geometries= new Geometries(
                 new Triangle(new Point(1, 1, -2), new Point(-1, 1, -2), new Point(0, -20, -2)),  // 2
                 new Plane(new Point(0, 0, -5), new Vector(0, 1, 1)), // 6
                 new Sphere(new Point(0, 0, 1), 0.5), // 0
                 new Sphere(new Point(0, 0, -3), 1) // 2
         );
+
+        // Assert that the expected number of intersection points is returned
         assertCountIntersections(cam,geometries,10);
     }
 }
