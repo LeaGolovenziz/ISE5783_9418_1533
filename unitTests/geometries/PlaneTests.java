@@ -4,19 +4,21 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Vector;
 import primitives.Ray;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for geometries.Plane class
+ *
  * @author Naomi Reitzer and Leah Golovenziz
  */
 class PlaneTests {
 
     /**
-    * Test method for {@link Plane#Plane(Point, Point, Point)}.
-    */
+     * Test method for {@link Plane#Plane(Point, Point, Point)}.
+     */
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
@@ -30,7 +32,9 @@ class PlaneTests {
         // =============== Boundary Values Tests ==================
         // TC02: Constructing a plane with two converging points
         assertThrows(IllegalArgumentException.class,
-                () -> {new Plane(new Point(1, 0, 0), new Point(1, 0, 0), new Point(0, 1, 0));},
+                () -> {
+                    new Plane(new Point(1, 0, 0), new Point(1, 0, 0), new Point(0, 1, 0));
+                },
                 "Constructed a plane with two converging points");
         // TC03: Constructing a plane with three points on the same line
         assertThrows(IllegalArgumentException.class, //
@@ -45,15 +49,26 @@ class PlaneTests {
     void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: Single Simple test of Normal of the plane
-        Plane pl = new Plane(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
         double sqrt3 = Math.sqrt(1d / 3);
-        assertTrue((new Vector(sqrt3, sqrt3, sqrt3)).equals(pl.getNormal(new Point(0, 0, 1)))||
-                        (new Vector(-sqrt3, -sqrt3, -sqrt3).equals(pl.getNormal(new Point(0, 0, 1)))),
+
+        Plane pl = new Plane(
+                new Point(1, 0, 0),
+                new Point(0, 1, 0),
+                new Point(0, 0, 1));
+
+        Point point = new Point(0,0,1);
+
+        Vector expected1 = new  Vector(sqrt3, sqrt3, sqrt3);
+        Vector expected2 =new  Vector(-sqrt3, -sqrt3, -sqrt3);
+
+        Vector result = pl.getNormal(new Point(0, 0, 1));
+
+        assertTrue(result.equals(expected1 )|| result.equals(expected2),
                 "Bad normal to plane");
     }
 
     @Test
-    void findIntersectionsTest(){
+    void findIntersectionsTest() {
         Plane pl = new Plane(new Point(0, 0, 1), new Vector(1, 1, 1));
 
         // ============ Equivalence Partitions Tests ==============
@@ -61,8 +76,7 @@ class PlaneTests {
         assertEquals(
                 List.of(new Point(1, 0, 0)),
                 pl.findIntersections(
-                        new Ray(new Point(0.5, 0, 0),
-                                new Vector(1, 0, 0))),
+                        new Ray(new Point(0.5, 0, 0), new Vector(1, 0, 0))),
                 "Bad plane intersection");
 
         // TC02: Ray doesn't intersect the plane

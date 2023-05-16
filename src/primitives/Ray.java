@@ -1,6 +1,7 @@
 package primitives;
 
 import java.util.Objects;
+import java.util.List;
 
 /**
  * The {@code Ray} class represents a ray in a Cartesian 3-dimensional coordinate system.
@@ -110,5 +111,33 @@ public class Ray {
 
     public Point getPoint(double t){
         return p0.add(dir.scale(t));
+    }
+
+    /**
+     * The function returns the closest point to P0 of the current ray
+     *
+     * @param List of points
+     * @return The closest point
+     */
+    public Point findClosestPoint(List<Point> pointList) {
+
+        // If there are no intersection points
+        if (pointList == null) {
+            return null;
+        }
+
+        double minDistance = Double.MAX_VALUE;
+        double pointDistance;
+        Point closestPoint = null;
+
+        // Go over the points and find the one with the minimum distance from p0
+        for (Point point : pointList) {
+            pointDistance = point.distanceSquared(p0);
+            if (pointDistance < minDistance) {
+                minDistance = pointDistance;
+                closestPoint = point;
+            }
+        }
+        return closestPoint;
     }
 }

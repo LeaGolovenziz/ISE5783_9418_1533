@@ -1,8 +1,11 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Ray;
 import primitives.Point;
 import primitives.Vector;
+
+import java.util.MissingResourceException;
 
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
@@ -22,13 +25,15 @@ public class Camera {
     private double width; // physical width of the view plane
     private double distance; // distance between the camera and the view plane
 
+    private ImageWriter imageWriter = null;
+    private RayTracerBase rayTracerBase = null;
+
     /**
      * Constructor for Camera class.
      *
      * @param p0  the origin point in 3D space
      * @param vTo the vector representing the camera's view direction
      * @param vUp the vector representing the camera's up direction
-     *
      * @throws IllegalArgumentException if vTo and vUp are not orthogonal
      */
     public Camera(Point p0, Vector vTo, Vector vUp) {
@@ -74,7 +79,6 @@ public class Camera {
      *
      * @param width  the physical width of the view plane
      * @param height the physical height of the view plane
-     *
      * @return the instance of Camera for method chaining
      */
     public Camera setVPSize(double width, double height) {
@@ -87,11 +91,32 @@ public class Camera {
      * Setter method for the distance between the camera and the view plane.
      *
      * @param distance the distance between the camera and the view plane
-     *
      * @return the instance of Camera for method chaining
      */
     public Camera setVPDistance(double distance) {
         this.distance = distance;
+        return this;
+    }
+
+    /**
+     * setter
+     *
+     * @param imageWriter {@link ImageWriter}
+     * @return the camera
+     */
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        this.imageWriter = imageWriter;
+        return this;
+    }
+
+    /**
+     * setter
+     *
+     * @param rayTracerBase {@link RayTracerBase}
+     * @return this camera
+     */
+    public Camera setRayTracer(RayTracerBase rayTracerBase) {
+        this.rayTracerBase = rayTracerBase;
         return this;
     }
 
@@ -129,6 +154,63 @@ public class Camera {
         }
         return new Ray(p0, Pij.subtract(p0));    //return ray from the camera to pixel[i,j]
     }
+
+    /**
+     * Color all the pixels of the image
+     */
+    public void renderImage() {
+        if (p0 == null || vRight == null
+                || vUp == null || vTo == null || distance == 0
+                || width == 0 || height == 0 || p0 == null
+                || imageWriter == null || rayTracerBase == null) {
+            throw new MissingResourceException("Missing camera data", Camera.class.getName(), null);
+        }
+
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+
+        // GO over all the pixels of the view plane
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                // Construct a ray through the current pixel
+                Ray ray = this.constructRay(nX, nY, j, i);
+                // Color the pixel
+                imageWriter.writePixel(j, i, rayTracerBase.traceRay(ray));
+            }
+        }
+    }
+
+    /**
+     * Print the grid
+     *
+     * @param interval between grid rows and columns
+     * @param color    of the grid
+     */
+    public void printGrid(int interval, Color color) {
+        if (imageWriter == null)
+            throw new MissingResourceException("Missing image writer", ImageWriter.class.getName(), null);
+
+        // Go over all pixels and color the grid between the intervals
+        for (int j = 0; j < imageWriter.getNy(); j++) {
+            for (int i = 0; i < imageWriter.getNy(); i++) {
+                if (j % interval == 0 || i % interval == 0) {
+                    imageWriter.writePixel(j, i, color);
+                }
+            }
+        }
+    }
+
+    /**
+     * Create a new image
+     */
+    public void writeToImage() {
+        if (imageWriter == null)
+            throw new MissingResourceException("missing image writer", ImageWriter.class.getName(), null);
+
+        imageWriter.writeToImage();
+    }
+
+
 }
 
 
