@@ -15,9 +15,8 @@ import primitives.Double3;
  *
  * @author Naomi Reitzer and Leah Golovenziz
  */
-public class AmbientLight {
+public class AmbientLight extends Light {
 
-    private final Color intensity;
     public static AmbientLight NONE = new AmbientLight(Color.BLACK, Double3.ZERO);
 
     /**
@@ -28,7 +27,7 @@ public class AmbientLight {
      * @param Ka The coefficient of the ambient light
      */
     public AmbientLight(Color Ia, Double3 Ka){
-        intensity = Ia.scale(Ka);
+        super(Ia.scale(Ka));
     }
 
     /**
@@ -39,15 +38,6 @@ public class AmbientLight {
      * @param Ka The coefficient of the ambient light
      */
     public AmbientLight(Color Ia, double Ka){
-        intensity = Ia.scale(Ka);
-    }
-
-    /**
-     * Retrieves the intensity of the ambient light.
-     *
-     * @return The intensity of the ambient light
-     */
-    public Color getIntensity(){
-        return intensity;
+        super(Ia.scale(Ka));
     }
 }

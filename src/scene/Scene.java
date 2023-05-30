@@ -6,6 +6,7 @@ import primitives.Color;
 
 import java.util.LinkedList;
 import java.util.List;
+import lighting.LightSource;
 
 /**
  * The Scene class represents a scene in a computer graphics environment.
@@ -22,10 +23,11 @@ import java.util.List;
  */
 public class Scene {
 
-    public final String name;
-    public final Color background;
-    public AmbientLight ambientLight;
-    public final Geometries geometries;
+    public final String name; // The name of the scene
+    public final Color background; // The background color of the scene
+    public AmbientLight ambientLight; // The ambient light of the scene
+    public final Geometries geometries; // The geometries in the scene
+    public List<LightSource> lights; // The lights sources of the scene
 
     /**
      * Constructs a Scene object using a SceneBuilder.
@@ -38,6 +40,7 @@ public class Scene {
         background = builder.background;
         ambientLight = builder.ambientLight;
         geometries = builder.geometries;
+        lights = builder.lights;
     }
 
     /**
@@ -59,6 +62,7 @@ public class Scene {
         private Color background = Color.BLACK;
         private AmbientLight ambientLight = AmbientLight.NONE;
         private Geometries geometries = new Geometries();
+        public List<LightSource> lights = new LinkedList<>();
 
         /**
          * Constructs a SceneBuilder object with the given scene name.
@@ -99,6 +103,17 @@ public class Scene {
          */
         public SceneBuilder setGeometries(Geometries geometries) {
             this.geometries = geometries;
+            return this;
+        }
+
+        /**
+         * Sets the lights of the scene
+         *
+         * @param lights
+         * @return the scene
+         */
+        public SceneBuilder setLights(List<LightSource> lights) {
+            this.lights = lights;
             return this;
         }
 

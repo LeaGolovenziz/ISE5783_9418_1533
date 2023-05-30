@@ -62,13 +62,13 @@ public class Sphere extends RadialGeometry {
      * @return list of intersection points
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Point P0 = ray.getP0();
         Vector v = ray.getDirection();
 
         // If P0 is the center of the sphere, return
         if (P0.equals(center)) {
-            return List.of(center.add(v.scale(radius)));
+            return List.of(new GeoPoint(this, center.add(v.scale(radius))));
         }
 
         // u = center-p0
@@ -93,17 +93,17 @@ public class Sphere extends RadialGeometry {
         if (t1 > 0 && t2 > 0) {
             Point p1 = ray.getPoint(t1); //p1=p0+t1*v
             Point p2 = ray.getPoint(t2); //p2=p0+t2*v
-            return List.of(p1,p2);
+            return List.of(new GeoPoint(this, p1), new GeoPoint(this, p2));
         }
 
         // Else if only one is positive - there is one intersection point
         if (t1 > 0) {
             Point p1 = ray.getPoint(t1); //p1=p0+t1*v
-            return List.of(p1);
+            return List.of(new GeoPoint(this, p1));
         }
         if (t2 > 0) {
             Point p2 = ray.getPoint(t2); //p2=p0+t2*v
-            return List.of(p2);
+            return List.of(new GeoPoint(this, p2));
         }
 
         // Else if they are both negative then there are no intersections

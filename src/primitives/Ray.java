@@ -1,7 +1,10 @@
 package primitives;
 
+import geometries.Intersectable;
+
 import java.util.Objects;
 import java.util.List;
+import geometries.Intersectable.GeoPoint;
 
 /**
  * The {@code Ray} class represents a ray in a Cartesian 3-dimensional coordinate system.
@@ -116,28 +119,39 @@ public class Ray {
     /**
      * The function returns the closest point to P0 of the current ray
      *
-     * @param List of points
+     * @param points - list of the points
      * @return The closest point
      */
-    public Point findClosestPoint(List<Point> pointList) {
+    public Point findClosestPoint(List<Point> points) {
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+    }
+
+    /**
+     * The function returns the closest GeoPoint to P0 of the current ray
+     *
+     * @param geoPointList - list of the points
+     * @return The closest geoPoint
+     */
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPointList) {
 
         // If there are no intersection points
-        if (pointList == null) {
+        if (geoPointList == null) {
             return null;
         }
 
         double minDistance = Double.MAX_VALUE;
-        double pointDistance;
-        Point closestPoint = null;
+        double geoPointDistance;
+        GeoPoint closestGeoPoint = null;
 
         // Go over the points and find the one with the minimum distance from p0
-        for (Point point : pointList) {
-            pointDistance = point.distanceSquared(p0);
-            if (pointDistance < minDistance) {
-                minDistance = pointDistance;
-                closestPoint = point;
+        for (GeoPoint geoPoint : geoPointList) {
+            geoPointDistance = geoPoint.point.distanceSquared(p0);
+            if (geoPointDistance < minDistance) {
+                minDistance = geoPointDistance;
+                closestGeoPoint = geoPoint;
             }
         }
-        return closestPoint;
+        return closestGeoPoint;
     }
 }

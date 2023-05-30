@@ -5,7 +5,7 @@ import primitives.Vector;
 /**
  * Abstract class RadialGeometry represents a radial geometry in Cartesian 3-Dimensional coordinate system
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
 
     protected final double radius;
 

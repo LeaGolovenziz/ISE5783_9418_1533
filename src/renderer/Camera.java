@@ -158,7 +158,7 @@ public class Camera {
     /**
      * Color all the pixels of the image
      */
-    public void renderImage() {
+    public Camera renderImage() {
         if (p0 == null || vRight == null
                 || vUp == null || vTo == null || distance == 0
                 || width == 0 || height == 0 || p0 == null
@@ -178,6 +178,7 @@ public class Camera {
                 imageWriter.writePixel(j, i, rayTracerBase.traceRay(ray));
             }
         }
+        return this;
     }
 
     /**

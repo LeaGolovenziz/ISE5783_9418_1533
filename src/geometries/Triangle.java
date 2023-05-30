@@ -34,10 +34,12 @@ public class Triangle extends Polygon {
      * @return list of intersection points
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 
         // First find the intersections with the plane in which the triangle lays
-        List<Point> intersections = plane.findIntersections(ray);
+        List<GeoPoint> intersections = plane.findGeoIntersectionsHelper(ray);
+
+
 
         // If there are no intersections with the plane - return null
         if (intersections == null)
@@ -58,6 +60,11 @@ public class Triangle extends Polygon {
         // If the point is on the triangle - there are no intersection point
         if (isZero(vn1) || isZero(vn2) || isZero(vn3))
             return null;
+
+        // Update the geometry
+        for (GeoPoint gp : intersections) {
+            gp.geometry = this;
+        }
 
         // IF they all have the same sign (-/+) the point is in the triangle so return the intersections , else return null
         return ((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0)) ? intersections : null;
