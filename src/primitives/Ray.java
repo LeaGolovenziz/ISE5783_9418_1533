@@ -45,6 +45,8 @@ public class Ray {
      */
     final Vector dir;
 
+    private static final double DELTA = 0.1; // Movement of the shadow rays
+
     /**
      * Constructs a new {@code Ray} object with the given starting point and direction vector.
      *
@@ -56,6 +58,21 @@ public class Ray {
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
         this.dir = dir.normalize();
+    }
+
+
+    /**
+     * Constructs a new {@code Ray} object with the given starting point and direction vector.
+     *
+     * @param p0
+     * @param p0
+     * @param dir
+     */
+    public Ray(Point p0,Vector normal, Vector dir) {
+        this.dir = dir.normalize();
+        double nV = normal.dotProduct(dir);
+        Vector delta = normal.scale(nV >= 0 ? DELTA : -DELTA);
+        this.p0 = p0.add(delta);
     }
 
     /**
