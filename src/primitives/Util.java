@@ -28,7 +28,7 @@ public abstract class Util {
 	}
 
 	/**
-	 * Checks whether the number is [almost] zero
+	 * ChecKS whether the number is [almost] zero
 	 * 
 	 * @param number the number to check
 	 * @return true if the number is zero or almost zero, false otherwise
@@ -54,7 +54,7 @@ public abstract class Util {
 	 * @param n2 2nd number
 	 * @return true if the numbers have the same sign
 	 */
-	public static boolean checkSign(double n1, double n2) {
+	public static boolean checKSign(double n1, double n2) {
 		return (n1 < 0 && n2 < 0) || (n1 > 0 && n2 > 0);
 	}
 

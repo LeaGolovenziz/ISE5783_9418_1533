@@ -36,7 +36,7 @@ public class Vector extends Point {
     }
 
     /**
-     * Checks if two Vector objects are equal.
+     * ChecKS if two Vector objects are equal.
      *
      * @param o the object to compare with this vector.
      * @return true if the two Vector objects are equal, false otherwise.

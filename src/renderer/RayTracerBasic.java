@@ -115,30 +115,30 @@ public class RayTracerBasic extends RayTracerBase{
         Vector n = intersection.geometry.getNormal(intersection.point); // The normal
 
         // Reflection attenuation of the material
-        Double3 kr = intersection.geometry.getMaterial().kR;
+        Double3 KR = intersection.geometry.getMaterial().KR;
         //reflection level as affected by k
-        Double3 kkr = kr.product(k);
+        Double3 kKR = KR.product(k);
 
-        if (!kkr.lowerThan(MIN_CALC_COLOR_K)) { // If the reflection level is not lower than the minimum
+        if (!kKR.lowerThan(MIN_CALC_COLOR_K)) { // If the reflection level is not lower than the minimum
             // Construct a reflection  ray from the point
             Ray reflectedRay = constructReflectedRay(n, intersection.point, inRay);
 
             // Add this color to the point by recursively calling calcGlobalEffect
-            color = calcGlobalEffect(reflectedRay, level, kr, kkr);
+            color = calcGlobalEffect(reflectedRay, level, KR, kKR);
         }
 
 
         // Transparency  attenuation factor of the material
-        Double3 kt = intersection.geometry.getMaterial().kT;
+        Double3 KT = intersection.geometry.getMaterial().KT;
         // Transparency level
-        Double3 kkt = kt.product(k);
+        Double3 kKT = KT.product(k);
 
-        if (!kkt.lowerThan(MIN_CALC_COLOR_K)) {// If the transparency level is not lower than the minimum
+        if (!kKT.lowerThan(MIN_CALC_COLOR_K)) {// If the transparency level is not lower than the minimum
             // Construct a refracted ray from the point
             Ray refractedRay = constructRefractedRay(n, intersection.point, inRay);
 
             // Add to the color to the point by recursively calling calcGlobalEffect
-            color = color.add(calcGlobalEffect(refractedRay, level, kt, kkt));
+            color = color.add(calcGlobalEffect(refractedRay, level, KT, kKT));
         }
 
         return color;
@@ -162,9 +162,9 @@ public class RayTracerBasic extends RayTracerBase{
             return Color.BLACK;
         }
 
-        int nShininess = intersection.geometry.getMaterial().nShininess;
-        Double3 kd = intersection.geometry.getMaterial().kD;
-        Double3 ks = intersection.geometry.getMaterial().kS;
+        int NShininess = intersection.geometry.getMaterial().NShininess;
+        Double3 KD = intersection.geometry.getMaterial().KD;
+        Double3 KS = intersection.geometry.getMaterial().KS;
 
         Color color = intersection.geometry.getEmission(); // Base color
 
@@ -174,12 +174,12 @@ public class RayTracerBasic extends RayTracerBase{
             double nl = alignZero(n.dotProduct(l));
             // If sign(nl) == sign(nv) (if the light hits the point add it, otherwise don't add this light)
             if (nl * nv > 0) {
-                // Ktr is the level of shade on the point (according to transparency of material)
-                Double3 ktr = transparency(intersection, l, n,lightSource );
-                if (!(ktr.product(k)).lowerThan(MIN_CALC_COLOR_K)) {
-                    Color lightIntensity = lightSource.getIntensity(intersection.point).scale(ktr);
-                    color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                            calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                // KTr is the level of shade on the point (according to transparency of material)
+                Double3 KTr = transparency(intersection, l, n,lightSource );
+                if (!(KTr.product(k)).lowerThan(MIN_CALC_COLOR_K)) {
+                    Color lightIntensity = lightSource.getIntensity(intersection.point).scale(KTr);
+                    color = color.add(calcDiffusive(KD, l, n, lightIntensity),
+                            calcSpecular(KS, l, n, v, NShininess, lightIntensity));
                 }
             }
         }
@@ -187,7 +187,7 @@ public class RayTracerBasic extends RayTracerBase{
     }
 
     /**
-     * Checks whether a point is shaded by other objects
+     * ChecKS whether a point is shaded by other objects
      *
      * @param gp          the point
      * @param l           the direction of the light
@@ -214,7 +214,7 @@ public class RayTracerBasic extends RayTracerBase{
         // For each intersection point
         for (GeoPoint intersection : intersections) {
             // If the material is not transparent return false
-            if (intersection.geometry.getMaterial().kT == Double3.ZERO) {
+            if (intersection.geometry.getMaterial().KT == Double3.ZERO) {
                 return false;
             }
 
@@ -226,36 +226,36 @@ public class RayTracerBasic extends RayTracerBase{
     /**
      * Calculates the specular light effect according to Phong's model
      *
-     * @param ks specular attenuation factor
+     * @param KS specular attenuation factor
      * @param l the direction of the light
      * @param n normal from the point
      * @param v direction of the viewer
-     * @param nShininess the exponent
+     * @param NShininess the exponent
      * @param lightIntensity the intensity of the light source at the point
      *
      * @return the color of the point
      */
-    private Color calcSpecular(Double3 ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
+    private Color calcSpecular(Double3 KS, Vector l, Vector n, Vector v, int NShininess, Color lightIntensity) {
         double ln = alignZero(l.dotProduct(n));
         Vector r = l.subtract(n.scale(2 * ln)).normalize(); // r=l-2*(l*n)*n
         double vr = alignZero(v.dotProduct(r));
-        double vrnsh = pow(max(0, -vr), nShininess); // vrnsh=max(0,-vr)^nshininess
-        return lightIntensity.scale(ks.scale(vrnsh)); // Ks * (max(0, - v * r) ^ Nsh) * Il
+        double vrnsh = pow(max(0, -vr), NShininess); // vrnsh=max(0,-vr)^NShininess
+        return lightIntensity.scale(KS.scale(vrnsh)); // KS * (max(0, - v * r) ^ Nsh) * Il
     }
 
     /**
      * Calculates the diffusive light effect according to Phong's model
      *
-     * @param kd the coefficient for diffusive
+     * @param KD the coefficient for diffusive
      * @param l the vector from the light source
      * @param n the normal to the point
      * @param lightIntensity  the light intensity
      *
      * @return the diffusive light
      */
-    private Color calcDiffusive(Double3 kd, Vector l, Vector n, Color lightIntensity) {
+    private Color calcDiffusive(Double3 KD, Vector l, Vector n, Color lightIntensity) {
         double ln = alignZero(abs(l.dotProduct(n))); // ln=|l*n|
-        return lightIntensity.scale(kd.scale(ln)); // Kd * |l * n| * Il
+        return lightIntensity.scale(KD.scale(ln)); // KD * |l * n| * Il
     }
 
     /**
@@ -320,14 +320,14 @@ public class RayTracerBasic extends RayTracerBase{
         Point point = gp.point.add(epsVector);
         Ray lightRay = new Ray(point, n, lightDir);
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-        Double3 ktr = new Double3(1);
+        Double3 KTr = new Double3(1);
         if (intersections != null) {
             for (GeoPoint gp2 : intersections) {
                 if (point.distance(gp2.point) < ls.getDistance(point)) {
-                    ktr=gp2.geometry.getMaterial().kT.product(ktr);
+                    KTr=gp2.geometry.getMaterial().KT.product(KTr);
                 }
             }
         }
-        return ktr;
+        return KTr;
     }
 }

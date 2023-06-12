@@ -21,8 +21,8 @@ public class PointLight extends Light implements LightSource {
 
     // The attenuation factors
     private double kC = 1;
-    private double kL = 0;
-    private double kQ = 0;
+    private double KL = 0;
+    private double KQ = 0;
 
     /**
      * Constructor
@@ -47,24 +47,24 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Builder pattern setter for field kL
+     * Builder pattern setter for field KL
      *
-     * @param kL parameter for field kL
+     * @param KL parameter for field KL
      * @return PointLight object
      */
-    public PointLight setKl(double kL) {
-        this.kL = kL;
+    public PointLight setKL(double KL) {
+        this.KL = KL;
         return this;
     }
 
     /**
-     * Builder pattern setter for field kQ
+     * Builder pattern setter for field KQ
      *
-     * @param kQ parameter for field kQ
+     * @param KQ parameter for field KQ
      * @return PointLight object
      */
-    public PointLight setKq(double kQ) {
-        this.kQ = kQ;
+    public PointLight setKQ(double KQ) {
+        this.KQ = KQ;
         return this;
     }
 
@@ -75,8 +75,8 @@ public class PointLight extends Light implements LightSource {
         Color i0 = super.getIntensity();
 
         //intensity reduced by attenuation factors and distance according to formula:
-        //i0/(kc+d*kl+d^2*kq)
-        return i0.reduce(kC + kL * d + kQ * ds);
+        //i0/(kc+d*KL+d^2*KQ)
+        return i0.reduce(kC + KL * d + KQ * ds);
     }
 
     @Override

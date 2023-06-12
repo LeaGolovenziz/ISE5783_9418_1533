@@ -37,7 +37,7 @@ public class SpotLight extends PointLight {
         double factor = Math.max(0, proj);
         Color i0 = super.getIntensity(p);
 
-        // i0*(max(0,direction*(position-p))/(kC+d*kL+ds*kQ)
+        // i0*(max(0,direction*(position-p))/(kC+d*KL+ds*KQ)
         return i0.scale(factor);
     }
 }

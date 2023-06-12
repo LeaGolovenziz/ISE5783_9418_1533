@@ -97,7 +97,7 @@ public class Double3 {
       return new Double3(d1 * rhs.d1, d2 * rhs.d2, d3 * rhs.d3);
    }
 
-   /** Checks whether all the numbers are lower than a test number
+   /** ChecKS whether all the numbers are lower than a test number
     * @param  k the test number
     * @return   true if all the numbers are less than k, false otherwise */
 
@@ -105,7 +105,7 @@ public class Double3 {
       return d1 < k && d2 < k && d3 < k;
    }
 
-   /** Checks whether all the numbers are lower than three numbers in another triad
+   /** ChecKS whether all the numbers are lower than three numbers in another triad
     * @param  other other triad
     * @return       true if all the numbers are less that appropriate numbers in
     *               other

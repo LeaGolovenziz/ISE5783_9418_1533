@@ -56,7 +56,7 @@ public class Point {
     }
 
     /**
-     * Checks whether the current Point object is equal to the given object.
+     * ChecKS whether the current Point object is equal to the given object.
      *
      * @param o the object to compare to.
      * @return true if the objects are equal, false otherwise.
