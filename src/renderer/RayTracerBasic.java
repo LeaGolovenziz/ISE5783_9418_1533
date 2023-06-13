@@ -8,6 +8,7 @@ import java.util.List;
 import static java.lang.Math.*;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
+import primitives.Vector;
 
 /**
  * This class represents a basic ray tracer that implements the ray tracing algorithm
@@ -22,6 +23,11 @@ public class RayTracerBasic extends RayTracerBase{
     private static final int MAX_CALC_COLOR_LEVEL = 10; // The max level of the recursion attending to reflection and transparency
     private static final double MIN_CALC_COLOR_K = 0.001; // The minimal effect of a color factor for transparency and reflection
     private static final double INITIAL_K = 1.0; // Initial value of the effect of a color factor for transparency and reflection
+
+    private static boolean improvement=false; // Is to activate improvement
+
+    private static final double ACCURACY=3;
+    private static final double RAYS=3;
 
     /**
      * Constructs a RayTracerBasic object with the given scene
@@ -79,6 +85,17 @@ public class RayTracerBasic extends RayTracerBase{
                 .add(scene.ambientLight.getIntensity());
     }
 
+    private Color improvementHelper(Point p0,Point p,Ray ray ,int level, Double3 kkx) {
+        if(p0.distance(p)<=ACCURACY){// to make the target a circle
+            Ray newRay=new Ray(ray.getP0(),p.subtract(ray.getP0()).normalize());
+            GeoPoint newP=findClosestIntersection(newRay);
+            if(newP!=null){
+                return calcColor(newP,newRay,level-1,kkx);
+            }
+        }
+        return Color.BLACK;
+    }
+
     /**
      * Calculates the global effect of reflection and refraction on a point.
      *
@@ -96,7 +113,65 @@ public class RayTracerBasic extends RayTracerBase{
             return scene.background;
         }
 
+
+        if(improvement) {//if we choose to use the improvement
+
+            Color ans = calcColor(gp, ray, level - 1, kkx);//calc the color in the specific point
+            int num = 1;
+            double gap = (double) ACCURACY / (RAYS);//the gap between each point in the grid
+            Vector v = ray.getDirection();
+            Double3 d = new Double3(v.getX(), v.getY(), v.getZ());
+            //directions that orthogonal to the ray in the point (to create a plane that include the point- to find more point in the area)
+            Vector dir1 = new Vector(new Double3(-1, -1, ((v.getX() + v.getY()) / v.getZ()))).normalize();
+            Vector dir2 = ray.getDirection().crossProduct(dir1).normalize();
+            Point startGrid = gp.point;
+            Point temp;
+            Color c;
+            //to make the target a grid
+            for (int i = 0; i < RAYS / 2d; i++) {//goes over the points in the area of the original point to calc their color
+                for (int j = 0; j < RAYS / 2d; j++) {
+                    if (i == 0 && j != 0) {//if the point is on one of the direction- we have 2 points +-direction for +-j
+                        temp = startGrid.add(dir2.scale(-j * gap));
+                        c = improvementHelper(startGrid, temp, ray, level, kkx);
+                        if (c != Color.BLACK) {
+                            ans = ans.add(c);
+                            temp = startGrid.add(dir2.scale(j * gap));
+                            ans.add(improvementHelper(startGrid, temp, ray, level, kkx));
+                            num = num + 2;
+                        }
+                    } else if (j == 0 && i != 0) {//if the point is on one of the direction- we have 2 points +-direction for +-i
+                        temp = startGrid.add(dir1.scale(-i * gap));
+                        c = improvementHelper(startGrid, temp, ray, level, kkx);
+                        if (c != Color.BLACK) {
+                            ans = ans.add(c);
+                            temp = startGrid.add(dir1.scale(i * gap));
+                            ans.add(improvementHelper(startGrid, temp, ray, level, kkx));
+                            num = num + 2;
+                        }
+                    } else if (j != 0 && i != 0) {//else there is 4 points- in each quarter for +-i,+-j
+                        temp = startGrid.add(dir1.scale(i * gap)).add(dir2.scale(j * gap));
+                        c = improvementHelper(startGrid, temp, ray, level, kkx);
+                        if (c != Color.BLACK) {
+                            ans = ans.add(c);
+                            temp = startGrid.add(dir1.scale(-i * gap)).add(dir2.scale(j * gap));
+                            ans = ans.add(improvementHelper(startGrid, temp, ray, level, kkx));
+                            temp = startGrid.add(dir1.scale(i * gap)).add(dir2.scale(-j * gap));
+                            ans = ans.add(improvementHelper(startGrid, temp, ray, level, kkx));
+                            temp = startGrid.add(dir1.scale(-i * gap)).add(dir2.scale(-j * gap));
+                            ans = ans.add(improvementHelper(startGrid, temp, ray, level, kkx));
+                            num = num + 4;
+                        }
+                    }
+                }
+            }
+            return ans.scale(kx).reduce(num);
+        }
+
         return calcColor(gp, ray, level - 1, kkx).scale(kx);
+    }
+
+    public void setImprovement(boolean glossy) {
+        this.improvement=glossy;
     }
 
 

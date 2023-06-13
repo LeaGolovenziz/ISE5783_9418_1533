@@ -16,7 +16,7 @@ public class Vector extends Point {
      *
      * @param xyz the Double3 representing the vector's coordinates.
      */
-    Vector(Double3 xyz) {
+    public Vector(Double3 xyz) {
         this(xyz.d1, xyz.d2, xyz.d3);
     }
 

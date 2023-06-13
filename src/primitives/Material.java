@@ -90,7 +90,7 @@ public class Material {
      * @param KR parameter for KR
      * @return Material object
      */
-    public Material setKR(Double3 KR) {
+    public Material setShininesR(Double3 KR) {
         this.KR = KR;
         return this;
     }
@@ -101,7 +101,7 @@ public class Material {
      * @param KR parameter for KR
      * @return Material object
      */
-    public Material setKR(double KR) {
+    public Material setShininesR(double KR) {
         this.KR = new Double3(KR);
         return this;
     }

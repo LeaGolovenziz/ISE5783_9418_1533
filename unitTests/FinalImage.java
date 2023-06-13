@@ -17,16 +17,22 @@ public class FinalImage {
         Scene scene = new Scene.SceneBuilder("Test scene")//
                 .setBackground(new Color(174,234,255)).build();
 
-        //Scene scene = new Scene.SceneBuilder("Test scene").build();//
-        Camera camera = new Camera(new Point(0, 0, 2000), new Vector(0,0,-1), new Vector(1,0,0)) //
+        Camera camera = new Camera(new Point(0, -2000, 0), new Vector(0,1,0).normalize(), new Vector(0,0,1)) //
                 .setVPDistance(600).setVPSize(150, 150); //
 
+//        Camera camera = new Camera(new Point(-1000, 2000, 500), new Vector(1000,-2000,-500).normalize(), new Vector(1000,1,2)) //
+//                .setVPDistance(600).setVPSize(150, 150); //
+
+//        //Scene scene = new Scene.SceneBuilder("Test scene").build();//
+//        Camera camera = new Camera(new Point(-1000, 1500, 0), new Vector(1000,-1500,-500).normalize(), new Vector(1,0,2)) //
+//                .setVPDistance(600).setVPSize(150, 150); //
+//
 //        Camera camera = new Camera(new Point(10000, -30000, 10000), new Vector(-1,3, 10), new Vector(-1, 3,-1)) //
 //                .setVPSize(150, 150).setVPDistance(10000);
 
         Material mountainM = new Material().setKD(0.6).setKS(0.4).setNShininess(200),
-                snowM = new Material().setKD(0.3).setKS(0.6).setNShininess(200).setKR(0.4),
-                seaM = new Material().setKD(0.2).setKS(0.9).setNShininess(3000).setKR(0.6),
+                snowM = new Material().setKD(0.3).setKS(0.6).setNShininess(200).setShininesR(0.4),
+                seaM = new Material().setKD(0.2).setKS(0.9).setNShininess(3000).setShininesR(0.6),
                 birdM = new Material().setKD(0.2).setKS(0.6).setNShininess(300),
                 cloudM = new Material().setKD(0.5).setKS(0.6).setNShininess(3000),
                 bushM = new Material().setKD(0.2).setKS(0.1).setNShininess(300);
@@ -284,6 +290,8 @@ public class FinalImage {
         //light source
         scene.lights.add(new DirectionalLight(new Color(200,200,0), new Vector(0,0,-1)));
         scene.lights.add(new SpotLight(new Color(123,104,238),new Point(10,-30,40), new Vector(-1, 3,7)));
+        // Sun light source
+        scene.lights.add(new PointLight(new Color(YELLOW),new Point(-100, 140, 100)).setKc(1));
 
         ImageWriter imageWriter = new ImageWriter("TheMountains", 400, 400);
         camera.setImageWriter(imageWriter) //
