@@ -35,7 +35,7 @@ public class FinalImage2 {
 
         //sun
         Material sunM = new Material().setKD(0.2).setKS(0.2).setNShininess(200).setKT(0.6);
-        scene.geometries.add(new Sphere(new Point(-100, 140, 100), 40d).setEmission(new Color(YELLOW)).setMaterial(sunM));
+        scene.geometries.add(new Sphere(new Point(-100, 140, 100), 40d).setEmission(new Color(251, 58, 16)).setMaterial(sunM));
 
         //mountains
         Material mountainM = new Material().setKD(0.6).setKS(0.4).setNShininess(200);
@@ -211,23 +211,24 @@ public class FinalImage2 {
 
         //clouds
         Material cloudM = new Material().setKD(0.5).setKS(0.6).setNShininess(3000);
+        Color cloudColor = new Color(255, 178, 200);
 
         //cloud 1
-        scene.geometries.add(new Sphere(new Point(165, 165, 115), 30d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
-        scene.geometries.add(new Sphere(new Point(140, 165, 105), 20d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
-        scene.geometries.add(new Sphere(new Point(190, 165, 105), 20d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(165, 165, 115), 30d).setEmission(cloudColor).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(140, 165, 105), 20d).setEmission(cloudColor).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(190, 165, 105), 20d).setEmission(cloudColor).setMaterial(cloudM));
         //cloud 2
-        scene.geometries.add(new Sphere(new Point(-215, 225, 135), 30d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
-        scene.geometries.add(new Sphere(new Point(-190, 225, 125), 20d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
-        scene.geometries.add(new Sphere(new Point(-240, 225, 125), 20d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(-215, 225, 135), 30d).setEmission(cloudColor).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(-190, 225, 125), 20d).setEmission(cloudColor).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(-240, 225, 125), 20d).setEmission(cloudColor).setMaterial(cloudM));
         //cloud 3
-        scene.geometries.add(new Sphere(new Point(35, 165, 165), 30d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
-        scene.geometries.add(new Sphere(new Point(10, 165, 155), 20d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
-        scene.geometries.add(new Sphere(new Point(60, 165, 155), 20d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(35, 165, 165), 30d).setEmission(cloudColor).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(10, 165, 155), 20d).setEmission(cloudColor).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(60, 165, 155), 20d).setEmission(cloudColor).setMaterial(cloudM));
         //cloud 3
-        scene.geometries.add(new Sphere(new Point(-245, 5, 135), 30d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
-        scene.geometries.add(new Sphere(new Point(-220, 5, 125), 20d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
-        scene.geometries.add(new Sphere(new Point(-270, 5, 125), 20d).setEmission(new Color(248,245,245)).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(-245, 5, 135), 30d).setEmission(cloudColor).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(-220, 5, 125), 20d).setEmission(cloudColor).setMaterial(cloudM));
+        scene.geometries.add(new Sphere(new Point(-270, 5, 125), 20d).setEmission(cloudColor).setMaterial(cloudM));
 
         //birds
         Material birdM = new Material().setKD(0.2).setKS(0.6).setNShininess(300);
@@ -296,7 +297,7 @@ public class FinalImage2 {
         // Sun light source
         scene.lights.add(new PointLight(new Color(YELLOW),new Point(-100, 140, 100)).setKc(1));
 
-        ImageWriter imageWriter = new ImageWriter("Mountains2", 400, 400);
+        ImageWriter imageWriter = new ImageWriter("TheMountainsNoImp", 400, 400);
         camera.setImageWriter(imageWriter) //
 //                .setImprovments(true, true)
                 .setRayTracer(new RayTracerBasic(scene)) //
