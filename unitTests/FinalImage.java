@@ -205,7 +205,7 @@ public class FinalImage {
 
                 //sky- triangle
                 new Triangle(new Point(10000, 10000, 0), new Point(-10000, 10000, 0), //
-                        new Point(0, 10000, 100000)).setEmission(new Color(174, 234, 255)),
+                        new Point(0, 10000, 100000)).setEmission(new Color(191, 41, 99)),
 
                 //clouds
 
@@ -293,7 +293,7 @@ public class FinalImage {
         // Sun light source
         scene.lights.add(new PointLight(new Color(YELLOW),new Point(-100, 140, 100)).setKc(1));
 
-        ImageWriter imageWriter = new ImageWriter("TheMountains", 400, 400);
+        ImageWriter imageWriter = new ImageWriter("MountainsFirst", 400, 400);
         camera.setImageWriter(imageWriter) //
 //                .setImprovments(true, true)
                 .setRayTracer(new RayTracerBasic(scene)) //
