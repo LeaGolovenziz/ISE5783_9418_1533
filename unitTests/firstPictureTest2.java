@@ -25,6 +25,8 @@ public class firstPictureTest2 {
     public void miniProject1() {
         scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), new Double3(0.15, 0.15, 0.15)));
 
+        Color spheresColor = new Color(0,128,0);
+
         scene.geometries.add( //
                 new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135),
                         new Point(75, 75, -150)) //
@@ -33,43 +35,43 @@ public class firstPictureTest2 {
                         new Point(75, 75, -150)) //
                         .setMaterial(new Material().setKS(new Double3(0.8)).setNShininess(60)), //
                 new Sphere(new Point(0, 0, -11), 30d) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30)),
                 new Triangle(new Point(22, 27, 70), new Point(-7, 22, 70), new Point(12, 12, 70))
                         .setMaterial(new Material().setKS(new Double3(0.8)).setNShininess(60))
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                 ,
                 new Sphere(new Point(55, 55, -11), 10) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30)) //
                 , new Sphere(new Point(-55, -55, -11), 10) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30)),
                 new Sphere(new Point(55, -55, -11), 10) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30)) //
                 , new Sphere(new Point(-55, 55, -11), 10) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30)),
                 new Sphere(new Point(40, 40, -100), 10) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30)) //
                 , new Sphere(new Point(-40, -40, -100), 10) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30)),
                 new Sphere(new Point(40, -40, -100), 10) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30)) //
                 , new Sphere(new Point(-40, 40, -100), 10) //
-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+                        .setEmission(spheresColor) //
                         .setMaterial(new Material().setKD(new Double3(0.5))
                                 .setKS(new Double3(0.5)).setNShininess(30))
 
