@@ -4,8 +4,10 @@ import primitives.Color;
 import primitives.Ray;
 import primitives.Point;
 import primitives.Vector;
+import renderer.ImageWriter;
 
 import java.util.MissingResourceException;
+import java.util.stream.IntStream;
 
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
@@ -27,6 +29,8 @@ public class Camera {
 
     private ImageWriter imageWriter = null;
     private RayTracerBase rayTracerBase = null;
+
+    private Boolean multiThreading = true;
 
     /**
      * Constructor for Camera class.
@@ -169,13 +173,28 @@ public class Camera {
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
 
-        // GO over all the pixels of the view plane
-        for (int i = 0; i < nX; i++) {
-            for (int j = 0; j < nY; j++) {
-                // Construct a ray through the current pixel
-                Ray ray = this.constructRay(nX, nY, j, i);
-                // Color the pixel
-                imageWriter.writePixel(j, i, rayTracerBase.traceRay(ray));
+        if(multiThreading)
+        {
+
+            Pixel.initialize(nY, nX, 60);
+            IntStream.range(0, nY).parallel().forEach(i->{
+                IntStream.range(0, nX).parallel().forEach(j->{
+                    castRay(nX, nY, j, i);
+                    Pixel.pixelDone();
+                    Pixel.printPixel();
+                });
+            });
+        }
+        else {
+
+            // GO over all the pixels of the view plane
+            for (int i = 0; i < nX; i++) {
+                for (int j = 0; j < nY; j++) {
+                    // Construct a ray through the current pixel
+                    Ray ray = this.constructRay(nX, nY, j, i);
+                    // Color the pixel
+                    imageWriter.writePixel(j, i, rayTracerBase.traceRay(ray));
+                }
             }
         }
         return this;
@@ -211,7 +230,19 @@ public class Camera {
         imageWriter.writeToImage();
     }
 
-
+    /**
+     * Cast ray from camera in order to color a pixel
+     *
+     * @param nX   - resolution on X axis (number of pixels in row)
+     * @param nY   - resolution on Y axis (number of pixels in column)
+     * @param icol - pixel's column number (pixel index in row)
+     * @param jrow - pixel's row number (pixel index in column)
+     */
+    private void castRay(int nX, int nY, int icol, int jrow) {
+        Ray ray = constructRay(nX, nY, jrow, icol);
+        Color pixelColor = this.rayTracerBase.traceRay(ray);
+        imageWriter.writePixel(jrow, icol, pixelColor);
+    }
 }
 
 
