@@ -27,10 +27,10 @@ public class RayTracerBasic extends RayTracerBase {
     private static final double MIN_CALC_COLOR_K = 0.001; // The minimal effect of a color factor for transparency and reflection
     private static final double INITIAL_K = 1.0; // Initial value of the effect of a color factor for transparency and reflection
 
-    private static boolean improvement = false; // Is to activate improvement
+    private static boolean improvement = true; // Is to activate improvement
 
-    private static final double ACCURACY = 4;
-    private static final double RAYS = 4;
+    private static final double ACCURACY = 5;
+    private static final double RAYS = 5;
 
     /**
      * Constructs a RayTracerBasic object with the given scene
@@ -127,7 +127,8 @@ public class RayTracerBasic extends RayTracerBase {
             Color c;
 
             // Create the grid on the target
-            for (int i = 0; i < RAYS / 2d; i++) { // Go over the points in the area of the original point and calc their color
+            // Go over the points in the area of the original point and calc their color
+            for (int i = 0; i < RAYS / 2d; i++) {
                 for (int j = 0; j < RAYS / 2d; j++) {
                     if (j == 0 && i != 0) { // If the point is on dir1 - there are 2 points for every -+i
                         temp = startGrid.add(dir1.scale(-i * gap));
