@@ -286,7 +286,7 @@ public class FinalImage2 {
         //-------------End light source--------------------
 
 
-        ImageWriter imageWriter = new ImageWriter("TheMountainsNoImplFinal", 400, 400);
+        ImageWriter imageWriter = new ImageWriter("TheMountainsNoImp", 400, 400);
         camera.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage(); //
